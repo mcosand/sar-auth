@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@ViewBag.Title - King County Search and Rescue</title>
   @Styles.Render("~/wwwroot/css/core")
+  @RenderSection("head", required: false)
 </head>
 <body layout="row" ng-app="sarAuth" class="ng-cloak">
   <div layout="column" flex id="content" role="main">

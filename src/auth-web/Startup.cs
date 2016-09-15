@@ -81,7 +81,8 @@ namespace Sar.Auth
                                 //Href = "~/localregistration"
                                 Href = "localregistration"
                             }
-                        }
+                        },
+          EnablePostSignOutAutoRedirect = true
         },
 
         EventsOptions = new EventsOptions

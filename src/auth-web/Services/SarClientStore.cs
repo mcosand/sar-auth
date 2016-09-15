@@ -1,7 +1,4 @@
-﻿/*
- * Copyright Matthew Cosand
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -11,6 +8,7 @@ using IdentityServer3.Core;
 using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
 using Sar.Auth.Data;
+using Sar.Services.Auth;
 
 namespace Sar.Auth.Services
 {
@@ -40,7 +38,7 @@ namespace Sar.Auth.Services
           Flow = row.Flow,
           RequireConsent = false,
           AllowRememberConsent = false,
-          AccessTokenType = AccessTokenType.Jwt
+          AccessTokenType = AccessTokenType.Jwt,
         };
 
         switch (row.Flow)
@@ -53,7 +51,7 @@ namespace Sar.Auth.Services
           case Flows.Implicit:
           case Flows.Hybrid:
             client.RedirectUris = row.RedirectUris.Select(g => g.Uri).ToList();
-            client.PostLogoutRedirectUris = new List<string>();
+            client.PostLogoutRedirectUris = row.LogoutUris.Select(g => g.Uri).ToList();
             client.AllowedScopes = new List<string> {
                 Constants.StandardScopes.OpenId,
                 Constants.StandardScopes.Profile,
@@ -63,6 +61,7 @@ namespace Sar.Auth.Services
             return client;
           case Flows.AuthorizationCode:
             client.RedirectUris = row.RedirectUris.Select(g => g.Uri).ToList();
+            client.PostLogoutRedirectUris = row.LogoutUris.Select(g => g.Uri).ToList();
             client.AllowedScopes = new List<string> {
                 Constants.StandardScopes.OpenId,
                 Constants.StandardScopes.Profile,
